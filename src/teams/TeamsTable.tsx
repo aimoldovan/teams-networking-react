@@ -1,3 +1,5 @@
+import React from "react";
+
 type Team = {
   id: string;
   promotion: string;
@@ -106,8 +108,30 @@ export function TeamsTable(props: Props) {
   );
 }
 
-export function TeamsTableWrapper() {
-  let teams: Team[] = []; // nu stiu de unde sa iau echipele
+type WrapperProps = {};
+type State = {
+  loading: boolean;
+};
 
-  return <TeamsTable loading={true} teams={teams} />;
+export class TeamsTableWrapper extends React.Component<WrapperProps, State> {
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: true
+    };
+  }
+
+  componentDidMount() {
+    setTimeout(() => {
+      // this.state.loading = false; // is read-only
+      this.setState({ loading: false });
+    }, 5000);
+  }
+
+  render() {
+    console.info("render", this.state.loading);
+    let teams: Team[] = []; // nu stiu de unde sa iau echipele
+
+    return <TeamsTable loading={this.state.loading} teams={teams} />;
+  }
 }
