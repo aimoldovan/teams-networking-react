@@ -1,6 +1,7 @@
-function TeamRow(team) {
+function TeamRow(props) {
   // const id = team.id;
   // const url = team.url;
+  const team = props.team;
   const { id, url } = team;
   const displayUrl = url.startsWith("https://github.com/") ? url.substring(19) : url;
   return (
@@ -56,7 +57,11 @@ export function TeamsTable(props) {
             <th>...</th>
           </tr>
         </thead>
-        <tbody>{props.teams.map(team => TeamRow(team))}</tbody>
+        <tbody>
+          {props.teams.map(team => (
+            <TeamRow team={team} />
+          ))}
+        </tbody>
         <tfoot>
           <tr>
             <td></td>
