@@ -1,4 +1,5 @@
 import React from "react";
+import { loadTeamsRequest } from "./middleware";
 
 type Team = {
   id: string;
@@ -111,27 +112,29 @@ export function TeamsTable(props: Props) {
 type WrapperProps = {};
 type State = {
   loading: boolean;
+  teams: Team[];
 };
 
 export class TeamsTableWrapper extends React.Component<WrapperProps, State> {
   constructor(props) {
     super(props);
     this.state = {
-      loading: true
+      loading: true,
+      teams: []
     };
   }
 
-  componentDidMount() {
-    setTimeout(() => {
-      // this.state.loading = false; // is read-only
-      this.setState({ loading: false });
-    }, 5000);
+  async componentDidMount() {
+    const teams = await loadTeamsRequest();
+    this.setState({
+      loading: false,
+      teams
+    });
+    console.info(teams);
   }
 
   render() {
     console.info("render", this.state.loading);
-    let teams: Team[] = []; // nu stiu de unde sa iau echipele
-
-    return <TeamsTable loading={this.state.loading} teams={teams} />;
+    return <TeamsTable loading={this.state.loading} teams={this.state.teams} />;
   }
 }
