@@ -1,7 +1,16 @@
-function TeamRow(props) {
+type Team = {
+  id: string;
+  promotion: string;
+  members: string;
+  name: string;
+  url: string;
+  createdBy?: string;
+};
+
+function TeamRow(props: { team: Team }) {
   // const id = team.id;
   // const url = team.url;
-  const team = props.team;
+  const team: Team = props.team;
   const { id, url } = team;
   const displayUrl = url.startsWith("https://github.com/") ? url.substring(19) : url;
   return (
@@ -31,7 +40,12 @@ function TeamRow(props) {
   );
 }
 
-export function TeamsTable(props) {
+type Props = {
+  loading: boolean;
+  teams: Team[];
+};
+
+export function TeamsTable(props: Props) {
   console.info("table props", props);
 
   return (
@@ -59,7 +73,7 @@ export function TeamsTable(props) {
         </thead>
         <tbody>
           {props.teams.map(team => (
-            <TeamRow team={team} />
+            <TeamRow key={team.id} team={team} />
           ))}
         </tbody>
         <tfoot>
@@ -93,7 +107,7 @@ export function TeamsTable(props) {
 }
 
 export function TeamsTableWrapper() {
-  const teams = [
+  const teams: Team[] = [
     {
       id: "toze8j1610313009673",
       promotion: "html",
